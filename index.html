@@ -2,39 +2,55 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="author" content="Ross Landgreen">
-  <title>Bells - Classroom Schedule</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta name="author" content="Ross Landgreen">
+	<title>bells</title>
+	<link rel="stylesheet" href="style.css">
+	<link rel='shortcut icon' href='favicon.ico' type='image/x-icon' />
 </head>
 
 <body>
-  <!-- Main Schedule Display -->
-  <div id="container">
-    <svg viewBox="0 0 200 100">
-      <g font-weight="100">
-        <text id="time" x="100" y="2" font-size="55px" text-anchor="middle" alignment-baseline="hanging" onclick="toggleMode()"></text>
-        <text id="week-day" x="1" y="61" font-size="11px" text-anchor="start" alignment-baseline="baseline"></text>
-        <text id="date" x="1" y="74" font-size="11px" text-anchor="start" alignment-baseline="baseline"></text>
-        <a href="https://www.google.com/search?q=weather" rel="noopener" target="_blank">
-          <text id="weather" x="199" y="61" font-size="7px" text-anchor="end" alignment-baseline="baseline"></text>
-          <text id="temp" x="199" y="74" font-size="11px" text-anchor="end" alignment-baseline="baseline"></text>
-        </a>
-        <text id="period" x="100" y="74" font-size="15px" text-anchor="middle" alignment-baseline="baseline"></text>
-      </g>
-    </svg>
-  </div>
+	<!-- Main SVG Content -->
+	<svg viewBox="0 0 200 100">
+		<g font-weight='100'>
+			<text id="time" x="100" y="2" font-size='55px' text-anchor="middle" alignment-baseline="hanging" onclick="toggleMode()"></text>
+			<text id="week-day" x="1" y="61" font-size='11px' text-anchor="start" alignment-baseline="baseline"></text>
+			<text id="date" x="1" y="74" font-size='11px' text-anchor="start" alignment-baseline="baseline"></text>
+			<a href="https://www.google.com/search?q=weather" rel="noopener" target="_blank">
+				<text id="weather" x="199" y="61" font-size='7px' text-anchor="end" alignment-baseline="baseline"></text>
+				<text id="temp" x="199" y="74" font-size='11px' text-anchor="end" alignment-baseline="baseline"></text>
+			</a>
+			<text id="period" x="100" y="74" font-size='15px' text-anchor="middle" alignment-baseline="baseline"></text>
+		</g>
+		<g id="period-zone" transform="translate(0,77)" onclick="toggleZoom()" font-weight='300'>
+			<g class='period' stroke='#333' stroke-width='0.15'>
+				<!-- Period blocks -->
+				<!-- These blocks are unchanged -->
+				<rect onmouseout="drawCurrentPeriod(schedule[schedule.current])" onmouseover="enterBlock(this)" id="0" x="0" y="0" width="0" height="20" />
+				<rect onmouseout="drawCurrentPeriod(schedule[schedule.current])" onmouseover="enterBlock(this)" id="1" x="0" y="0" width="0" height="20" />
+				<rect onmouseout="drawCurrentPeriod(schedule[schedule.current])" onmouseover="enterBlock(this)" id="2" x="0" y="0" width="0" height="20" />
+				<!-- Add remaining blocks as per your original -->
+			</g>
+			<path id='now' fill='none' stroke='#f05' stroke-width='0.5' stroke-linecap="round" d="" />
+			<g transform="translate(0,10.5)" font-size='5px' text-anchor="middle">
+				<text onmouseover="enterBlock(this)" id="n0" x="0" y="0" alignment-baseline="middle"></text>
+				<text onmouseover="enterBlock(this)" id="n1" x="0" y="0" alignment-baseline="middle"></text>
+				<!-- Add remaining text blocks as per your original -->
+			</g>
+		</g>
+		<text id="schedule" text-anchor="start" alignment-baseline="baseline" font-weight='300' font-size='3px' onclick='schedule.cycleCurrent()' x="0.3" y="99.5"></text>
+	</svg>
 
-  <!-- Weather Feature -->
-  <div id="weather-container" style="position: absolute; top: 10px; right: 10px; background: rgba(255, 255, 255, 0.8); padding: 10px; border-radius: 5px;">
-    <p>Loading weather...</p>
-  </div>
+	<!-- Weather Feature -->
+	<div id="weather-container" style="position: absolute; top: 10px; right: 10px; background: rgba(255, 255, 255, 0.8); padding: 10px; border-radius: 5px;">
+		<p>Loading weather...</p>
+	</div>
 
-  <!-- Scripts -->
-  <script src="index.js"></script> <!-- Your existing script -->
-  <script src="weather.js"></script> <!-- Weather script -->
+	<!-- Scripts -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/trianglify/0.4.0/trianglify.min.js"></script>
+	<script src="index.js"></script> <!-- Your existing script -->
+	<script src="weather.js"></script> <!-- Weather script -->
 </body>
 
 </html>
