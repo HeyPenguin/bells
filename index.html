@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
 	<meta charset="UTF-8">
@@ -8,6 +8,28 @@
 	<title>bells</title>
 	<link rel="stylesheet" href="style.css">
 	<link rel='shortcut icon' href='favicon.ico' type='image/x-icon' />
+	<style>
+		/* Styling for the weather widget */
+		#weather-widget {
+			position: absolute;
+			top: 10px;
+			right: 10px;
+			background: rgba(255, 255, 255, 0.9);
+			padding: 10px;
+			border-radius: 8px;
+			box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+			font-family: Arial, sans-serif;
+			font-size: 14px;
+			color: #333;
+			text-align: center;
+		}
+
+		#weather-widget img {
+			vertical-align: middle;
+			width: 40px;
+			height: 40px;
+		}
+	</style>
 </head>
 
 <body>
@@ -96,8 +118,51 @@
 		<text id="schedule" text-anchor="start" alignment-baseline="baseline" font-weight='300' font-size='3px' onclick='schedule.cycleCurrent()' x="0.3" y="99.5"></text>
 		<!-- <text id="bell-toggle" text-anchor="end" alignment-baseline="baseline" font-weight='300' font-size='3px' onclick='bellToggle()' x="199.7" y="99.5"></text> -->
 	</svg>
+
+	<!-- Weather Widget -->
+	<div id="weather-widget">
+		<p>Loading weather...</p>
+	</div>
+
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/trianglify/0.4.0/trianglify.min.js"></script>
 	<script src="index.js"></script>
+	<script>
+		// Weather API Configuration
+		const WEATHERSTACK_API_KEY = "1b5049892986509bdea64414c486cdc9
+"; // Replace with your API key
+		const LOCATION = "1905 Armacost AveLos Angeles, CA 90025"; // Replace with your location
+
+		// Function to fetch weather data
+		async function loadWeather() {
+			const weatherWidget = document.getElementById('weather-widget');
+			try {
+				const url = `https://api.weatherstack.com/current?access_key=${WEATHERSTACK_API_KEY}&query=${encodeURIComponent(LOCATION)}`;
+				const response = await fetch(url);
+				if (!response.ok) {
+					throw new Error(`HTTP error! status: ${response.status}`);
+				}
+				const data = await response.json();
+
+				// Display weather data
+				if (data && data.current) {
+					const { temperature, weather_descriptions, weather_icons } = data.current;
+					weatherWidget.innerHTML = `
+						<img src="${weather_icons[0]}" alt="${weather_descriptions[0]}" />
+						<p>${weather_descriptions[0]}</p>
+						<p>${temperature}°C</p>
+					`;
+				} else {
+					throw new Error("Weather data unavailable.");
+				}
+			} catch (error) {
+				console.error("Error loading weather:", error);
+				weatherWidget.innerHTML = `<p>Unable to load weather data.</p>`;
+			}
+		}
+
+		// Fetch weather on load
+		loadWeather();
+	</script>
 </body>
 
 </html>
