@@ -9,28 +9,80 @@
 	<link rel="stylesheet" href="style.css">
 	<link rel='shortcut icon' href='favicon.ico' type='image/x-icon' />
 	<style>
-		/* Styling for the weather widget */
+	<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta name="author" content="Ross Landgreen">
+	<title>bells</title>
+	<link rel="stylesheet" href="style.css">
+	<link rel='shortcut icon' href='favicon.ico' type='image/x-icon' />
+	<style>
+		/* Weather Widget Styling */
 		#weather-widget {
 			position: absolute;
-			top: 10px;
-			right: 10px;
-			background: rgba(255, 255, 255, 0.9);
-			padding: 10px;
-			border-radius: 8px;
-			box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+			top: 20px;
+			right: 20px;
+			width: 320px;
+			height: 140px;
+			background: linear-gradient(135deg, #4a90e2, #8ac3f2);
+			padding: 15px;
+			border-radius: 15px;
+			box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
 			font-family: Arial, sans-serif;
-			font-size: 14px;
-			color: #333;
-			text-align: center;
+			color: white;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+		}
+
+		#weather-widget .icon {
+			width: 100px;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
 		}
 
 		#weather-widget img {
-			vertical-align: middle;
-			width: 40px;
-			height: 40px;
+			width: 80px;
+			height: 80px;
+			margin-bottom: 5px;
+		}
+
+		#weather-widget .details {
+			flex: 1;
+			padding-left: 15px;
+			display: flex;
+			flex-direction: column;
+		}
+
+		#weather-widget .details h2 {
+			font-size: 16px;
+			margin: 0;
+		}
+
+		#weather-widget .details h1 {
+			font-size: 50px;
+			margin: 5px 0 0 0;
+		}
+
+		#weather-widget .details span {
+			font-size: 12px;
+			opacity: 0.8;
+		}
+
+		#weather-widget .divider {
+			width: 1px;
+			height: 100%;
+			background-color: rgba(255, 255, 255, 0.5);
+			margin: 0 15px;
 		}
 	</style>
 </head>
+
 
 <body>
 	<!-- <canvas id="canvas" width='500' height='500'></canvas> -->
@@ -120,8 +172,19 @@
 	</svg>
 
 	<!-- Weather Widget -->
-	<div id="weather-widget">
-		<p>Loading weather...</p>
+<div id="weather-widget">
+	<div class="icon">
+		<img src="" alt="Weather Icon" id="weather-icon">
+		<p id="weather-description">Loading...</p>
+	</div>
+	<div class="divider"></div>
+	<div class="details">
+		<h2 id="weather-location"></h2>
+		<span id="weather-date"></span>
+		<h1 id="weather-temperature"></h1>
+		<span id="weather-temp-fahrenheit"></span>
+	</div>
+</div>
 	</div>
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/trianglify/0.4.0/trianglify.min.js"></script>
@@ -238,6 +301,7 @@
 		</g>
 	</svg>
 
+
 	<!-- Weather Widget -->
 	<div id="weather-widget">
 		<div class="icon">
@@ -249,11 +313,10 @@
 			<h2 id="weather-location"></h2>
 			<span id="weather-date"></span>
 			<h1 id="weather-temperature"></h1>
-			<h3 id="weather-temp-fahrenheit"></h3>
+			<span id="weather-temp-fahrenheit"></span>
 		</div>
 	</div>
 
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/trianglify/0.4.0/trianglify.min.js"></script>
 	<script src="index.js"></script>
 	<script>
 		// Weather API Configuration
@@ -298,9 +361,3 @@
 
 		// Load weather on page load
 		loadWeather();
-	</script>
-</body>
-
-</html>
-	
-</html>
