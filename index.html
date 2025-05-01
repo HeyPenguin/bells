@@ -15,7 +15,7 @@
 			top: 20px;
 			right: 20px;
 			width: 320px;
-			height: 140px;
+			height: auto;
 			background: linear-gradient(135deg, #4a90e2, #8ac3f2);
 			padding: 15px;
 			border-radius: 15px;
@@ -28,7 +28,7 @@
 		}
 
 		#weather-widget .icon {
-			width: 100px;
+			width: 80px;
 			display: flex;
 			flex-direction: column;
 			align-items: center;
@@ -36,8 +36,8 @@
 		}
 
 		#weather-widget img {
-			width: 80px;
-			height: 80px;
+			width: 60px;
+			height: 60px;
 			margin-bottom: 5px;
 		}
 
@@ -54,7 +54,7 @@
 		}
 
 		#weather-widget .details h1 {
-			font-size: 50px;
+			font-size: 36px;
 			margin: 5px 0 0 0;
 		}
 
@@ -63,6 +63,12 @@
 			opacity: 0.8;
 		}
 
+		/* Time Styles */
+		#time {
+			font-size: 35px; /* Reduced size for better fit */
+		}
+
+		/* Divider for the weather widget */
 		#weather-widget .divider {
 			width: 1px;
 			height: 100%;
@@ -72,8 +78,7 @@
 	</style>
 </head>
 
-<body>
-	<!-- <canvas id="canvas" width='500' height='500'></canvas> -->
+<body>	
 	<svg viewBox="0 0 200 100">
 		<!-- <g id='analogClock' onclick="toggleMode()" fill='none' stroke='#333' stroke-width="0.3" stroke-linecap="round" transform="translate(100,32) scale(0.9)">
 			<circle cx="0" cy="0" r="32" fill='f6f6f6' />
@@ -214,6 +219,17 @@
 				<text onmouseover="enterBlock(this)" id="n16" x="0" y="0" alignment-baseline="middle"></text>
 				<text onmouseover="enterBlock(this)" id="n17" x="0" y="0" alignment-baseline="middle"></text>
 			</g>
+		</g>
+	<svg viewBox="0 0 200 100">
+		<g font-weight='100'>
+			<text id="time" x="100" y="2" font-size='35px' text-anchor="middle" alignment-baseline="hanging" onclick="toggleMode()"></text>
+			<text id="week-day" x="1" y="61" font-size='11px' text-anchor="start" alignment-baseline="baseline"></text>
+			<text id="date" x="1" y="74" font-size='11px' text-anchor="start" alignment-baseline="baseline"></text>
+			<a href="https://www.google.com/search?q=weather" rel="noopener" target="_blank">
+				<text id="weather" x="199" y="61" font-size='7px' text-anchor="end" alignment-baseline="baseline"></text>
+				<text id="temp" x="199" y="74" font-size='11px' text-anchor="end" alignment-baseline="baseline"></text>
+			</a>
+			<text id="period" x="100" y="74" font-size='15px' text-anchor="middle" alignment-baseline="baseline"></text>
 		</g>
 	</svg>
 
