@@ -128,8 +128,7 @@
 	<script src="index.js"></script>
 	<script>
 		// Weather API Configuration
-		const WEATHERSTACK_API_KEY = "1b5049892986509bdea64414c486cdc9
-"; // Replace with your API key
+		const WEATHERSTACK_API_KEY = "1b5049892986509bdea64414c486cdc9"; // Replace with your API key
 		const LOCATION = "1905 Armacost AveLos Angeles, CA 90025"; // Replace with your location
 
 		// Function to fetch weather data
@@ -165,4 +164,143 @@
 	</script>
 </body>
 
+<style>
+		/* Styling for the weather widget */
+		#weather-widget {
+			position: absolute;
+			top: 20px;
+			right: 20px;
+			width: 300px;
+			height: 150px;
+			background: linear-gradient(135deg, #4a90e2, #8ac3f2);
+			padding: 15px;
+			border-radius: 15px;
+			box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+			font-family: Arial, sans-serif;
+			color: white;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+		}
+
+		#weather-widget .icon {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			flex-direction: column;
+		}
+
+		#weather-widget img {
+			width: 80px;
+			height: 80px;
+		}
+
+		#weather-widget .details {
+			display: flex;
+			flex-direction: column;
+			align-items: flex-start;
+			justify-content: center;
+		}
+
+		#weather-widget .details h2,
+		#weather-widget .details h3 {
+			margin: 0;
+			font-size: 16px;
+		}
+
+		#weather-widget .details h1 {
+			margin: 5px 0 0 0;
+			font-size: 45px;
+		}
+
+		#weather-widget .details span {
+			font-size: 12px;
+			opacity: 0.8;
+		}
+
+		#weather-widget .divider {
+			width: 1px;
+			height: 100%;
+			background-color: rgba(255, 255, 255, 0.5);
+			margin: 0 15px;
+		}
+	</style>
+</head>
+
+<body>
+	<!-- Main SVG Content -->
+	<svg viewBox="0 0 200 100">
+		<g font-weight='100'>
+			<text id="time" x="100" y="2" font-size='55px' text-anchor="middle" alignment-baseline="hanging" onclick="toggleMode()"></text>
+			<text id="week-day" x="1" y="61" font-size='11px' text-anchor="start" alignment-baseline="baseline"></text>
+			<text id="date" x="1" y="74" font-size='11px' text-anchor="start" alignment-baseline="baseline"></text>
+			<text id="period" x="100" y="74" font-size='15px' text-anchor="middle" alignment-baseline="baseline"></text>
+		</g>
+	</svg>
+
+	<!-- Weather Widget -->
+	<div id="weather-widget">
+		<div class="icon">
+			<img src="" alt="Weather Icon" id="weather-icon">
+			<p id="weather-description">Loading...</p>
+		</div>
+		<div class="divider"></div>
+		<div class="details">
+			<h2 id="weather-location"></h2>
+			<span id="weather-date"></span>
+			<h1 id="weather-temperature"></h1>
+			<h3 id="weather-temp-fahrenheit"></h3>
+		</div>
+	</div>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/trianglify/0.4.0/trianglify.min.js"></script>
+	<script src="index.js"></script>
+	<script>
+		// Weather API Configuration
+		const WEATHERSTACK_API_KEY = "1b5049892986509bdea64414c486cdc9"; // Replace with your API key
+		const LOCATION = "1905 Armacost AveLos Angeles, CA 90025"; // Replace with your location
+
+		// Fetch and display weather data
+		async function loadWeather() {
+			const weatherIcon = document.getElementById("weather-icon");
+			const weatherDescription = document.getElementById("weather-description");
+			const weatherLocation = document.getElementById("weather-location");
+			const weatherDate = document.getElementById("weather-date");
+			const weatherTemperature = document.getElementById("weather-temperature");
+			const weatherTempFahrenheit = document.getElementById("weather-temp-fahrenheit");
+
+			try {
+				const url = `https://api.weatherstack.com/current?access_key=${WEATHERSTACK_API_KEY}&query=${encodeURIComponent(LOCATION)}`;
+				const response = await fetch(url);
+				const data = await response.json();
+
+				if (data && data.current) {
+					// Update widget with weather data
+					const { temperature, weather_descriptions, weather_icons } = data.current;
+					const tempFahrenheit = (temperature * 9) / 5 + 32; // Convert Celsius to Fahrenheit
+					const date = new Date();
+					const options = { weekday: "long", month: "long", day: "numeric" };
+
+					weatherIcon.src = weather_icons[0];
+					weatherDescription.textContent = weather_descriptions[0];
+					weatherLocation.textContent = `${data.location.name}, ${data.location.country}`;
+					weatherDate.textContent = date.toLocaleDateString(undefined, options);
+					weatherTemperature.textContent = `${temperature}°C`;
+					weatherTempFahrenheit.textContent = `${tempFahrenheit.toFixed(1)}°F`;
+				} else {
+					throw new Error("Weather data unavailable.");
+				}
+			} catch (error) {
+				console.error("Error loading weather:", error);
+				weatherDescription.textContent = "Unable to load weather data.";
+			}
+		}
+
+		// Load weather on page load
+		loadWeather();
+	</script>
+</body>
+
+</html>
+	
 </html>
