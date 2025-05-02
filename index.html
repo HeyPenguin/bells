@@ -251,7 +251,7 @@
 	<script src="index.js"></script>
 	<script>
 		// Weather API Configuration
-		const WEATHERSTACK_API_KEY = "1b5049892986509bdea64414c486cdc9"; // Replace with your API key
+		const WEATHERAPI_API_KEY = "922cfe0083dc4c0e88b202738250205"; // Replace with your API key
 		const LOCATION = "34.0360661,-118.4553064"; // Example coordinates for Los Angeles
 
 		// Fetch and display weather data
@@ -263,35 +263,36 @@
 			const weatherTemperature = document.getElementById("weather-temperature");
 			const weatherTempFahrenheit = document.getElementById("weather-temp-fahrenheit");
 
-			try {
-				const url = `https://api.weatherstack.com/current?access_key=${WEATHERSTACK_API_KEY}&query=${encodeURIComponent(LOCATION)}`;
-				const response = await fetch(url);
-				const data = await response.json();
+			 try {
+    // Fetch weather data from WeatherAPI
+    const url = `https://api.weatherapi.com/v1/current.json?key=${WEATHER_API_KEY}&q=${LOCATION}`;
+    const response = await fetch(url);
+    const data = await response.json();
 
-				if (data && data.current) {
-					// Update widget with weather data
-					const { temperature, weather_descriptions, weather_icons } = data.current;
-					const tempFahrenheit = (temperature * 9) / 5 + 32; // Convert Celsius to Fahrenheit
-					const date = new Date();
-					const options = { weekday: "long", month: "long", day: "numeric" };
+    if (response.ok) {
+      // Extract relevant weather data
+      const { temp_c, temp_f, condition } = data.current;
+      const date = new Date(data.location.localtime);
+      const options = { weekday: "long", month: "long", day: "numeric" };
 
-					weatherIcon.src = weather_icons[0];
-					weatherDescription.textContent = weather_descriptions[0];
-					weatherLocation.textContent = `${data.location.name}, ${data.location.country}`;
-					weatherDate.textContent = date.toLocaleDateString(undefined, options);
-					weatherTemperature.textContent = `${temperature}°C`;
-					weatherTempFahrenheit.textContent = `${tempFahrenheit.toFixed(1)}°F`;
-				} else {
-					throw new Error("Weather data unavailable.");
-				}
-			} catch (error) {
-				console.error("Error loading weather:", error);
-				weatherDescription.textContent = "Unable to load weather data.";
-			}
-		}
+      // Update the weather widget
+      weatherIcon.src = `https:${condition.icon}`; // WeatherAPI provides icons as relative URLs
+      weatherDescription.textContent = condition.text;
+      weatherLocation.textContent = `${data.location.name}, ${data.location.country}`;
+      weatherDate.textContent = date.toLocaleDateString(undefined, options);
+      weatherTemperature.textContent = `${temp_c}°C`;
+      weatherTempFahrenheit.textContent = `${temp_f}°F`;
+    } else {
+      throw new Error(data.error.message || "Unable to fetch weather data.");
+    }
+  } catch (error) {
+    console.error("Error loading weather:", error);
+    weatherDescription.textContent = "Unable to load weather data.";
+  }
+}
 
-		// Load weather on page load
-		loadWeather();
+// Call the function on page load
+loadWeather();
 	</script>
 </body>
 
